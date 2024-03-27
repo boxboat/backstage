@@ -241,6 +241,7 @@ catalog:
         - System
         - Domain
         - Location
+        - Template
   providers:
     backstageOpenapi:
       plugins:

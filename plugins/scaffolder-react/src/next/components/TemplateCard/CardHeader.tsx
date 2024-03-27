@@ -15,10 +15,18 @@
  */
 
 import React from 'react';
-import { Theme, makeStyles, useTheme } from '@material-ui/core';
+import { Theme, makeStyles, useTheme, Box } from '@material-ui/core';
 import { ItemCardHeader } from '@backstage/core-components';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import { FavoriteEntity } from '@backstage/plugin-catalog-react';
+
+interface CostComponentProps {
+  cost: number;
+}
+
+const CostComponent: React.FC<CostComponentProps> = ({ cost }) => (
+  <div>{cost}</div>
+);
 
 const useStyles = makeStyles<
   Theme,
@@ -30,6 +38,7 @@ const useStyles = makeStyles<
   header: {
     backgroundImage: ({ cardBackgroundImage }) => cardBackgroundImage,
     color: ({ cardFontColor }) => cardFontColor,
+    position: 'relative',
   },
   subtitleWrapper: {
     display: 'flex',
@@ -54,6 +63,7 @@ export const CardHeader = (props: CardHeaderProps) => {
       spec: { type },
     },
   } = props;
+  const cost = props.template.metadata.annotations?.infracost;
   const { getPageTheme } = useTheme();
   const themeForType = getPageTheme({ themeId: type });
 
@@ -76,6 +86,19 @@ export const CardHeader = (props: CardHeaderProps) => {
       title={title ?? name}
       subtitle={SubtitleComponent}
       classes={{ root: styles.header }}
-    />
+    >
+      {cost ? (
+        <Box
+          position="absolute"
+          right={0}
+          bottom={0}
+          bgcolor="lightgrey"
+          p={0.5}
+          color="black"
+        >
+          <CostComponent cost={cost} />
+        </Box>
+      ) : null}
+    </ItemCardHeader>
   );
 };
