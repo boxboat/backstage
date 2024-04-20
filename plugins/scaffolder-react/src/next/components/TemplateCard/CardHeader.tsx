@@ -92,9 +92,12 @@ export const CardHeader = (props: CardHeaderProps) => {
           position="absolute"
           right={0}
           bottom={0}
-          bgcolor="lightgrey"
+          bgcolor="yellow"
           p={0.5}
+          border={3}
+          borderColor="red"
           color="black"
+          fontWeight="900"
         >
           <CostComponent cost={cost} />
         </Box>
